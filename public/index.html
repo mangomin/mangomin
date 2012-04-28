@@ -70,9 +70,49 @@
 		  </ul>
 		</div>
 		<div class="span10">
-		  <!--Body content-->
-		  Content
-			<div id="dbConfig"></div>
+  		    <!--Body content-->
+  		    <div class="accordion" id="accordion1">
+				<div class="accordion-group">
+				  <div class="accordion-heading">
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+					  Mongod
+					</a>
+				  </div>
+				  <div id="collapseOne" class="accordion-body collapse in">
+					<div class="accordion-inner">
+						<div id="dbMongod"></div>
+					</div>
+				  </div>
+				</div>
+			</div>
+  		    <div class="accordion" id="accordion2">
+				<div class="accordion-group">
+				  <div class="accordion-heading">
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+					  Mongos
+					</a>
+				  </div>
+				  <div id="collapseTwo" class="accordion-body collapse in">
+					<div class="accordion-inner">
+						<div id="dbMongos"></div>
+					</div>
+				  </div>
+				</div>
+			</div>
+  		    <div class="accordion" id="accordion3">
+				<div class="accordion-group">
+				  <div class="accordion-heading">
+					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
+					  Config
+					</a>
+				  </div>
+				  <div id="collapseThree" class="accordion-body collapse in">
+					<div class="accordion-inner">
+						<div id="dbConfig"></div>
+					</div>
+				  </div>
+				</div>
+			</div>
 			<input class="btn btn-danger" type="button" id="config" value="Config" />
 		</div>
 	  </div>
@@ -83,6 +123,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/socket.io/socket.io.js"></script>
 	<script src="/jquery.min.js"></script>
+	<script src="/bootstrap-collapse.js"></script>
 	<!--
     <script src="../assets/js/jquery.js"></script>
     <script src="../assets/js/bootstrap-transition.js"></script>
@@ -108,8 +149,26 @@
 		
 	  	socket.on('updateConfig', function(configData){
 	  		$('#dbConfig').empty();
+	  		$('#dbMongos').empty();
+	  		$('#dbMongod').empty();
 			configData = JSON.parse(configData);
-			$('#dbConfig').append("configData: " + JSON.stringify(configData) + "<br>");
+			//$('#dbConfig').append("configData: " + JSON.stringify(configData) + "<br>");
+			//debugger;
+			if (configData.hasOwnProperty('mongod')){
+				for (var i = 0; i < configData.mongod.length; i++){
+					$('#dbMongod').append('<span class="badge badge-success">' + configData.mongod[i]["ip"] + '</span><br>');
+				}
+			}
+			if (configData.hasOwnProperty('mongos')){
+				for (var i = 0; i < configData.mongos.length; i++){
+					$('#dbMongos').append('<span class="badge badge-important">' + configData.mongos[i]["ip"] + '</span><br>');
+				}
+			}
+			if (configData.hasOwnProperty('config')){
+				for (var i = 0; i < configData.config.length; i++){
+					$('#dbConfig').append('<span class="badge badge-warning">' + configData.config[i]["ip"] + '</span><br>');
+				}
+			}
 	  	});
 		// on load of page
 		$(function(){
