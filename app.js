@@ -2,6 +2,9 @@ var express = require('express');
 var app = express.createServer();
 var socketIO = require('socket.io');
 var io = socketIO.listen(app);
+io.set('log level', 2); // reduce logging
+var fs = require('fs');
+
 
 app.get('/', function(req, res){
 	res.sendfile(__dirname + '/public/index.html');
@@ -27,6 +30,17 @@ app.get('/assets/css/bootstrap-responsive.css', function (req, res) {
 app.listen(3000);
 
 io.sockets.on('connection', function (socket) {
+
+	fs.readFile(__dirname + '/config.json', 'ascii', function(err,configData){
+	  if(err) {
+		console.error("Could not open file: %s", err);
+		process.exit(1);
+	  }
+	  //var emitConfigData = JSON.parse(configData);
+	  socket.emit('updateConfig', configData);
+	  console.log(configData);
+	  //console.log(JSON.stringify(configData));
+	});
 
 	
 	// when the user disconnects.. perform this

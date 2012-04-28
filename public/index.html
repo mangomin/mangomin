@@ -72,6 +72,7 @@
 		<div class="span10">
 		  <!--Body content-->
 		  Content
+			<div id="dbConfig"></div>
 			<input class="btn btn-danger" type="button" id="config" value="Config" />
 		</div>
 	  </div>
@@ -82,6 +83,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/socket.io/socket.io.js"></script>
 	<script src="/jquery.min.js"></script>
+	<!--
     <script src="../assets/js/jquery.js"></script>
     <script src="../assets/js/bootstrap-transition.js"></script>
     <script src="../assets/js/bootstrap-alert.js"></script>
@@ -95,6 +97,7 @@
     <script src="../assets/js/bootstrap-collapse.js"></script>
     <script src="../assets/js/bootstrap-carousel.js"></script>
     <script src="../assets/js/bootstrap-typeahead.js"></script>
+    -->
     <script>
 	    var socket = io.connect();
 	    
@@ -102,6 +105,12 @@
 		socket.on('connect', function(){
 	
 		});
+		
+	  	socket.on('updateConfig', function(configData){
+	  		$('#dbConfig').empty();
+			configData = JSON.parse(configData);
+			$('#dbConfig').append("configData: " + JSON.stringify(configData) + "<br>");
+	  	});
 		// on load of page
 		$(function(){
 			// when the client clicks newcard
