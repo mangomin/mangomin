@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express.createServer();
+var socketIO = require('socket.io');
+var io = socketIO.listen(app);
 
 app.get('/', function(req, res){
 	res.sendfile(__dirname + '/public/index.html');
@@ -23,3 +25,12 @@ app.get('/assets/css/bootstrap-responsive.css', function (req, res) {
 
 
 app.listen(3000);
+
+io.sockets.on('connection', function (socket) {
+
+	
+	// when the user disconnects.. perform this
+	socket.on('disconnect', function(){
+	});
+	
+});

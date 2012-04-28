@@ -40,7 +40,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">Project name</a>
+          <a class="brand" href="#">Mongomin</a>
           <div class="nav-collapse">
             <ul class="nav">
               <li class="active"><a href="#">Home</a></li>
@@ -58,10 +58,30 @@
       <p>Use this document as a way to quick start any new project.<br> All you get is this message and a barebones HTML document.</p>
 
     </div> <!-- /container -->
+    <div class="container-fluid">
+	  <div class="row-fluid">
+		<div class="span2">
+		  <!--Sidebar content-->		  
+		  <h3>Clusters</h3>
+		  <ul class="nav nav-pills nav-stacked">
+			<li class="active"><a href="#">db_1</a></li>
+			<li><a href="#">db_2</a></li>
+			<li><a href="#">db_3</a></li>
+		  </ul>
+		</div>
+		<div class="span10">
+		  <!--Body content-->
+		  Content
+			<input class="btn btn-danger" type="button" id="config" value="Config" />
+		</div>
+	  </div>
+	</div>
 
     <!-- Le javascript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/socket.io/socket.io.js"></script>
+	<script src="/jquery.min.js"></script>
     <script src="../assets/js/jquery.js"></script>
     <script src="../assets/js/bootstrap-transition.js"></script>
     <script src="../assets/js/bootstrap-alert.js"></script>
@@ -75,6 +95,23 @@
     <script src="../assets/js/bootstrap-collapse.js"></script>
     <script src="../assets/js/bootstrap-carousel.js"></script>
     <script src="../assets/js/bootstrap-typeahead.js"></script>
+    <script>
+	    var socket = io.connect();
+	    
+		// on connection to server, ask for user's name with an anonymous callback
+		socket.on('connect', function(){
+	
+		});
+		// on load of page
+		$(function(){
+			// when the client clicks newcard
+			$('#config').click( function() {
+				socket.emit('config');
+			});
+		});
+
+	
+    </script>
 
   </body>
 </html>
