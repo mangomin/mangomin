@@ -169,6 +169,10 @@
 					$('#dbConfig').append('<span class="badge badge-warning">' + configData.config[i]["ip"] + '</span><br>');
 				}
 			}
+	  	});	  	
+		
+	  	socket.on('mongostat', function(data){
+	  		var statData = data.toString();
 	  	});
 		// on load of page
 		$(function(){

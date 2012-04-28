@@ -31,6 +31,16 @@ app.listen(3000);
 
 io.sockets.on('connection', function (socket) {
 
+	
+	var util   = require('util'),
+		spawn = require('child_process').spawn,
+		//mongostat    = spawn('mongostat', ['--rowcount', '4']);
+		mongostat    = spawn('mongostat');
+	mongostat.stdout.on('data', function (data) {
+		//mongostat.stdin.write(data);
+		console.log(data.toString());
+		socket.emit('mongostat', data);
+	});
 	fs.readFile(__dirname + '/config.json', 'ascii', function(err,configData){
 	  if(err) {
 		console.error("Could not open file: %s", err);
@@ -45,6 +55,7 @@ io.sockets.on('connection', function (socket) {
 	
 	// when the user disconnects.. perform this
 	socket.on('disconnect', function(){
+		process.kill(mongostat.pid);
 	});
 	
 });
